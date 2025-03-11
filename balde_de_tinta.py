@@ -1,17 +1,18 @@
 class Graph:
-    def __init__(self, rows, cols): 
+    def __init__(self, rows, cols):
         self.rows = rows 
         self.cols = cols
-        self.V = rows * cols
-        self.adj = {v: [] for v in range(self.V)} 
+        self.V = rows * cols # número total de vértices (células da matriz)
+        self.adj = {v: [] for v in range(self.V)} # lista de adjacência (vizinhos de cada célula) 
 
-    def add_edge(self, v, w):
+    def add_edge(self, v, w): # função para adicionar arestas (8-conectado)
         if w not in self.adj[v]:
             self.adj[v].append(w)
         if v not in self.adj[w]:
             self.adj[w].append(v)
+    # Conecta os vértices v e w (aresta bidirecional), evita arestas duplicadas
 
-    def neighbors(self, v):
+    def neighbors(self, v): # função para obter os vizinhos de um vértice (nó)
         return self.adj[v]
 
     def print_adj_list(self):
@@ -19,11 +20,12 @@ class Graph:
         for v in self.adj:
             print(f"{v}: {self.adj[v]}")
 
-def pos_to_vertex(i, j, cols):
+def pos_to_vertex(i, j, cols): # Converte uma célula da matriz (linha, coluna) em um número (vértice).
     return i * cols + j
 
-def vertex_to_pos(v, cols):
-    return v // cols, v % cols
+def vertex_to_pos(v, cols): # Converte o número (vértice) de volta para a posição (linha, coluna).
+    return v // cols, v % cols 
+# pos_to_vertex e vertex_to_pos são funções auxiliares para converter entre células da matriz e vértices do grafo.
 
 def build_graph(matrix):
     rows = len(matrix)
@@ -68,12 +70,10 @@ def read_matrix(file_path):
         matrix = [list(map(int, line.strip().split())) for line in file if line.strip()]
     return matrix
 
-
 def save_matrix(matrix, output_path):
     with open(output_path, 'w') as file:
         for row in matrix:
             file.write(' '.join(map(str, row)) + '\n')
-
 
 def run_fill(file_path, sr, sc, new_color, output_path):
     matrix = read_matrix(file_path)
@@ -95,6 +95,7 @@ if __name__ == "__main__":
     output_path = 'data/resultado.txt'  
 
     run_fill(file_path, sr, sc, new_color, output_path)
+    print("\nBalde de Tinta (8-conectado) executado")
     print(f"Arquivo de saída gerado em: {output_path}")
 
     graph = build_graph(read_matrix(file_path))
