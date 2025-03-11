@@ -14,14 +14,16 @@ class Graph:
     def neighbors(self, v):
         return self.adj[v]
 
+    def print_adj_list(self):
+        print("\nLista de Adjacência do Grafo (8-conectado):")
+        for v in self.adj:
+            print(f"{v}: {self.adj[v]}")
 
 def pos_to_vertex(i, j, cols):
     return i * cols + j
 
-
 def vertex_to_pos(v, cols):
     return v // cols, v % cols
-
 
 def build_graph(matrix):
     rows = len(matrix)
@@ -87,10 +89,13 @@ def run_fill(file_path, sr, sc, new_color, output_path):
 
 
 if __name__ == "__main__":
-    file_path = 'data/UNIFOR_sample.txt'
-    sr, sc = 425, 10                      
-    new_color = 2                          
+    file_path = 'data/entrada_simples.txt'
+    sr, sc = 0, 0                      
+    new_color = 9                          
     output_path = 'data/resultado.txt'  
 
     run_fill(file_path, sr, sc, new_color, output_path)
     print(f"Arquivo de saída gerado em: {output_path}")
+
+    graph = build_graph(read_matrix(file_path))
+    graph.print_adj_list()  
