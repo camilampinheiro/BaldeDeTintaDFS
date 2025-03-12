@@ -1,18 +1,19 @@
+import time
+
 class Graph:
     def __init__(self, rows, cols):
-        self.rows = rows 
+        self.rows = rows
         self.cols = cols
         self.V = rows * cols # número total de vértices (células da matriz)
         self.adj = {v: [] for v in range(self.V)} # lista de adjacência (vizinhos de cada célula) 
 
-    def add_edge(self, v, w): # função para adicionar arestas (8-conectado)
+    def add_edge(self, v, w): 
         if w not in self.adj[v]:
             self.adj[v].append(w)
         if v not in self.adj[w]:
             self.adj[w].append(v)
-    # Conecta os vértices v e w (aresta bidirecional), evita arestas duplicadas
 
-    def neighbors(self, v): # função para obter os vizinhos de um vértice (nó)
+    def neighbors(self, v): 
         return self.adj[v]
 
     def print_adj_list(self):
@@ -25,7 +26,6 @@ def pos_to_vertex(i, j, cols): # Converte uma célula da matriz (linha, coluna) 
 
 def vertex_to_pos(v, cols): # Converte o número (vértice) de volta para a posição (linha, coluna).
     return v // cols, v % cols 
-# pos_to_vertex e vertex_to_pos são funções auxiliares para converter entre células da matriz e vértices do grafo.
 
 def build_graph(matrix):
     rows = len(matrix)
@@ -46,7 +46,6 @@ def build_graph(matrix):
                     g.add_edge(v, w)
     return g
 
-
 def dfs_fill_iterative(matrix, graph, start_v, target_color, new_color):
     stack = [start_v]
     visited = [False] * (graph.rows * graph.cols)
@@ -63,7 +62,6 @@ def dfs_fill_iterative(matrix, graph, start_v, target_color, new_color):
 
         for neighbor in graph.neighbors(v):
             stack.append(neighbor)
-
 
 def read_matrix(file_path):
     with open(file_path, 'r') as file:
@@ -89,14 +87,19 @@ def run_fill(file_path, sr, sc, new_color, output_path):
 
 
 if __name__ == "__main__":
-    file_path = 'data/entrada_simples.txt'
-    sr, sc = 0, 0                      
-    new_color = 9                          
+    start_time = time.time()
+    file_path = 'data/UNIFOR_sample.txt'
+    sr, sc = 5, 7                     
+    new_color = 2                          
     output_path = 'data/resultado.txt'  
 
     run_fill(file_path, sr, sc, new_color, output_path)
     print("\nBalde de Tinta (8-conectado) executado")
     print(f"Arquivo de saída gerado em: {output_path}")
 
-    graph = build_graph(read_matrix(file_path))
-    graph.print_adj_list()  
+    #graph = build_graph(read_matrix(file_path))
+    #graph.print_adj_list()  
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"\nTempo de execução: {elapsed_time:.6f}")
