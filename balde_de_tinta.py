@@ -31,11 +31,8 @@ class Graph:
         for v in self.adj:
             print(f"{v}: {self.adj[v]}")
 
-def pos_to_vertex(i, j, cols): 
+def posicao_vertice(i, j, cols): 
     return i * cols + j
-
-def vertex_to_pos(v, cols): 
-    return v // cols, v % cols 
 
 def build_graph(matrix):
     rows = len(matrix)
@@ -47,13 +44,13 @@ def build_graph(matrix):
 
     for i in range(rows):
         for j in range(cols):
-            v = pos_to_vertex(i, j, cols)
+            v = posicao_vertice(i, j, cols)
             g.set_color(v, matrix[i][j])  
 
             for d in directions:
                 ni, nj = i + d[0], j + d[1]
                 if 0 <= ni < rows and 0 <= nj < cols:
-                    w = pos_to_vertex(ni, nj, cols)
+                    w = posicao_vertice(ni, nj, cols)
                     g.add_edge(v, w)
     return g
 
@@ -91,7 +88,7 @@ def save_matrix(graph, output_path):
         for i in range(graph.rows):
             row = []
             for j in range(graph.cols):
-                v = pos_to_vertex(i, j, graph.cols)
+                v = posicao_vertice(i, j, graph.cols)
                 row.append(str(graph.get_color(v)))  
             file.write(' '.join(row) + '\n')
 
@@ -100,7 +97,7 @@ def run(file_path, sr, sc, new_color, output_path):
     rows, cols = len(matrix), len(matrix[0])
     graph = build_graph(matrix)     
 
-    start_vertex = pos_to_vertex(sr, sc, cols)
+    start_vertex = posicao_vertice(sr, sc, cols)
     target_color = graph.get_color(start_vertex)
 
     if target_color != new_color:
